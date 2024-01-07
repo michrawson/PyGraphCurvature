@@ -1,0 +1,7 @@
+numpy
+networkx
+ot
+itertools
+matplotlib
+zoneinfo
+time
