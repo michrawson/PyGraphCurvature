@@ -59,8 +59,8 @@ def lly_curvature(G, alpha=0.9):
     LLY_curvatures = (OR_curvatures_plus - OR_curvatures_minus) / (alpha_minus - alpha_plus)
 
     LLY_curvatures = np.array(LLY_curvatures)
-    
-    LLY_node_curv = np.nanmean(LLY_curvatures,axis=0)
+
+    LLY_node_curv = np.nanmean(LLY_curvatures, axis=0)
 
     return LLY_curvatures, LLY_node_curv
 
@@ -93,7 +93,7 @@ def forman_curvature(G):
             node2_ind = G_nodes_ind_map[node2]
             G_fcurv[node1_ind, node2_ind] = 4 - G_deg_np[node1_ind] - G_deg_np[node2_ind]
 
-    G_node_curv = np.nanmean(G_fcurv,axis=0)
+    G_node_curv = np.nanmean(G_fcurv, axis=0)
 
     return G_fcurv, G_node_curv
 
@@ -137,7 +137,7 @@ def forman_aug_curvature(G):
 
         G_fcurv_aug[node2_ind, node1_ind] = G_fcurv_aug[node1_ind, node2_ind]
 
-    G_node_curv = np.nanmean(G_fcurv_aug,axis=0)
+    G_node_curv = np.nanmean(G_fcurv_aug, axis=0)
 
     return G_fcurv_aug, G_node_curv
 
