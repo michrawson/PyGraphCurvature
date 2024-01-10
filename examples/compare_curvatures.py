@@ -1,12 +1,12 @@
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
+from example_graphs import make_chung_lu_clustering_graph
+from zoneinfo import ZoneInfo
+from time import time
 import sys
 sys.path.insert(0, '..')
 from graph_curvature import lly_curvature, forman_curvature, forman_aug_curvature  # noqa: E402
-from example_graphs import make_chung_lu_clustering_graph  # noqa: E402
-from zoneinfo import ZoneInfo  # noqa: E402
-from time import time  # noqa: E402
 
 
 tz = ZoneInfo("America/Los_Angeles")
