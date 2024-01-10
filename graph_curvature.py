@@ -17,10 +17,10 @@ def graph_main_component(G):
     return G_main_component
 
 
-def lly_curvature(G, alpha):
+def lly_curvature(G, alpha=0.9):
 
     if G.number_of_nodes() == 0:
-        return np.zeros((0, 0))
+        return np.zeros((0, 0)), np.zeros((0, 0))
 
     A = nx.adjacency_matrix(G)
     A = A.toarray()
@@ -58,7 +58,11 @@ def lly_curvature(G, alpha):
 
     LLY_curvatures = (OR_curvatures_plus - OR_curvatures_minus) / (alpha_minus - alpha_plus)
 
-    return np.array(LLY_curvatures)
+    LLY_curvatures = np.array(LLY_curvatures)
+
+    LLY_node_curv = np.nanmean(LLY_curvatures, axis=0)
+
+    return LLY_curvatures, LLY_node_curv
 
 
 def forman_curvature(G):
@@ -89,7 +93,9 @@ def forman_curvature(G):
             node2_ind = G_nodes_ind_map[node2]
             G_fcurv[node1_ind, node2_ind] = 4 - G_deg_np[node1_ind] - G_deg_np[node2_ind]
 
-    return G_fcurv
+    G_node_curv = np.nanmean(G_fcurv, axis=0)
+
+    return G_fcurv, G_node_curv
 
 
 def forman_aug_curvature(G):
@@ -113,8 +119,8 @@ def forman_aug_curvature(G):
     for node in G.nodes:
         G_neighbors[node] = np.array(G.adj[node])
 
-    G_fcurv_alt = np.zeros((len(G_nodes), len(G_nodes)))
-    G_fcurv_alt[:] = np.nan
+    G_fcurv_aug = np.zeros((len(G_nodes), len(G_nodes)))
+    G_fcurv_aug[:] = np.nan
 
     G_deg_np = np.array(np.sum(G_adj, axis=0)).flatten()
 
@@ -126,12 +132,14 @@ def forman_aug_curvature(G):
         node1_ind = G_nodes_ind_map[node1]
         node2_ind = G_nodes_ind_map[node2]
 
-        G_fcurv_alt[node1_ind, node2_ind] = forman_aug_curvature_edge(node1, node2,
+        G_fcurv_aug[node1_ind, node2_ind] = forman_aug_curvature_edge(node1, node2,
                                                                       G_neighbors, G_nodes_ind_map, G_deg_np)
 
-        G_fcurv_alt[node2_ind, node1_ind] = G_fcurv_alt[node1_ind, node2_ind]
+        G_fcurv_aug[node2_ind, node1_ind] = G_fcurv_aug[node1_ind, node2_ind]
 
-    return G_fcurv_alt
+    G_node_curv = np.nanmean(G_fcurv_aug, axis=0)
+
+    return G_fcurv_aug, G_node_curv
 
 
 def forman_aug_curvature_edge(node1, node2, G_neighbors, G_nodes_ind_map, G_deg_np):
