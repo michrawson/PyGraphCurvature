@@ -4,7 +4,17 @@ import ot
 
 
 def graph_main_component(G):
+    '''
+    Parameters
+    ----------
+    G : networkx.Graph
+        Graph which can have multiple components.
 
+    Returns
+    -------
+    G_main_component : networkx.Graph
+        Graph G with only its main connected component.
+    '''
     G_main_component = nx.Graph(G)
 
     G_cc = sorted(nx.connected_components(G), key=len, reverse=True)
@@ -18,6 +28,21 @@ def graph_main_component(G):
 
 
 def lly_curvature(G, alpha=0.9):
+    '''
+    Parameters
+    ----------
+    G : networkx.Graph
+        Graph which can have multiple components.
+    alpha : float
+        Scalar between 0 and 1 that the gives weight to a node's neighbor. Default 0.9.
+
+    Returns
+    -------
+    LLY_curvatures : numpy.array
+        2 dimensional array containing curvatures indexed by node pairs.
+    LLY_node_curv : numpy.array
+        1 dimensional array containing curvatures indexed by node.
+    '''
 
     if G.number_of_nodes() == 0:
         return np.zeros((0, 0)), np.zeros((0, 0))
@@ -66,6 +91,19 @@ def lly_curvature(G, alpha=0.9):
 
 
 def forman_curvature(G):
+    '''
+    Parameters
+    ----------
+    G : networkx.Graph
+        Graph which can have multiple components.
+
+    Returns
+    -------
+    G_fcurv : numpy.array
+        2 dimensional array containing curvatures indexed by node pairs.
+    G_node_curv : numpy.array
+        1 dimensional array containing curvatures indexed by node.
+    '''
 
     G_adj = np.zeros((len(G.nodes), len(G.nodes)))
 
@@ -99,6 +137,19 @@ def forman_curvature(G):
 
 
 def forman_aug_curvature(G):
+    '''
+    Parameters
+    ----------
+    G : networkx.Graph
+        Graph which can have multiple components.
+
+    Returns
+    -------
+    G_fcurv_aug : numpy.array
+        2 dimensional array containing curvatures indexed by node pairs.
+    G_node_curv : numpy.array
+        1 dimensional array containing curvatures indexed by node.
+    '''
 
     G_adj = np.zeros((len(G.nodes), len(G.nodes)))
 
@@ -133,7 +184,9 @@ def forman_aug_curvature(G):
         node2_ind = G_nodes_ind_map[node2]
 
         G_fcurv_aug[node1_ind, node2_ind] = forman_aug_curvature_edge(node1, node2,
-                                                                      G_neighbors, G_nodes_ind_map, G_deg_np)
+                                                                      G_neighbors,
+                                                                      G_nodes_ind_map,
+                                                                      G_deg_np)
 
         G_fcurv_aug[node2_ind, node1_ind] = G_fcurv_aug[node1_ind, node2_ind]
 

@@ -12,7 +12,7 @@ from graph_curvature import lly_curvature, forman_curvature, forman_aug_curvatur
 tz = ZoneInfo("America/Los_Angeles")
 
 
-def compare_curvatures(G, G_fcurv, G_fcurv_alt, LLY_curvatures):
+def compare_curvatures(G, G_fcurv, G_fcurv_aug, LLY_curvatures):
 
     G_adj = np.zeros((len(G.nodes), len(G.nodes)))
 
@@ -39,30 +39,30 @@ def compare_curvatures(G, G_fcurv, G_fcurv_alt, LLY_curvatures):
                             1 + np.nanmax(G_fcurv.flatten())),
              rwidth=0.85,
              color='skyblue')  # ,edgecolor='black')
-    # plt.title('histogram')
+    plt.title('histogram')
     plt.xlabel('Forman curvature')
     plt.ylabel('count')
     plt.show()
 
-    plt.hist(G_fcurv_alt[np.triu_indices(G_fcurv_alt.shape[0])].flatten(),
-             bins=np.arange(np.nanmin(G_fcurv_alt.flatten()),
-                            1 + np.nanmax(G_fcurv_alt.flatten())),
+    plt.hist(G_fcurv_aug[np.triu_indices(G_fcurv_aug.shape[0])].flatten(),
+             bins=np.arange(np.nanmin(G_fcurv_aug.flatten()),
+                            1 + np.nanmax(G_fcurv_aug.flatten())),
              rwidth=0.85,
              color='skyblue')  # ,edgecolor='black')
-    # plt.title('histogram')
+    plt.title('histogram')
     plt.xlabel('Forman aug. curvature')
     plt.ylabel('count')
     plt.show()
 
     plt.hist(LLY_curvatures[np.triu_indices(LLY_curvatures.shape[0])].flatten(),
              bins=40, rwidth=0.85, color='skyblue')  # ,edgecolor='black')
-    # plt.title('histogram')
+    plt.title('histogram')
     plt.xlabel('LLY curvature')
     plt.ylabel('count')
     plt.show()
 
 
-def curv_vs_time(graph_data, n_range, alpha):
+def curv_vs_time(graph_data, n_range):
 
     forman_times = []
     forman_alt_times = []
@@ -98,7 +98,7 @@ def curv_vs_time(graph_data, n_range, alpha):
 
         start = time()
 
-        _ = lly_curvature(G, alpha)
+        _ = lly_curvature(G)
 
         end = time()
         lly_times.append(end - start)
@@ -106,28 +106,6 @@ def curv_vs_time(graph_data, n_range, alpha):
     plt.loglog(n_range, forman_times,
                n_range, forman_alt_times,
                n_range, lly_times)
-
-    plt.legend(['Forman', 'Forman Aug.', 'LLY'])
-
-    plt.ylabel('Seconds')
-    plt.xlabel('Number of nodes')
-
-    plt.show()
-
-    plt.semilogy(n_range, forman_times,
-                 n_range, forman_alt_times,
-                 n_range, lly_times)
-
-    plt.legend(['Forman', 'Forman Aug.', 'LLY'])
-
-    plt.ylabel('Seconds')
-    plt.xlabel('Number of nodes')
-
-    plt.show()
-
-    plt.plot(n_range, forman_times,
-             n_range, forman_alt_times,
-             n_range, lly_times)
 
     plt.legend(['Forman', 'Forman Aug.', 'LLY'])
 
