@@ -43,7 +43,7 @@ def lly_curvature(G, alpha=0.9):
     LLY_node_curv : numpy.array
         1 dimensional array containing curvatures indexed by node.
     '''
-    
+
     if G.number_of_nodes() == 0:
         return np.zeros((0, 0)), np.zeros((0, 0))
 
