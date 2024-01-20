@@ -1,6 +1,6 @@
 import numpy as np
 import networkx as nx
-from graph_curvature import forman_curvature, forman_aug_curvature, lly_curvature
+from pygraph_curvature import forman_curvature, forman_aug_curvature, lly_curvature
 
 
 def test_forman_curvature():

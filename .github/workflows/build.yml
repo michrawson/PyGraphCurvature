@@ -33,9 +33,21 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt && pip install pytest flake8
-    - name: Lint with flake8
+    - name: Lint src with flake8
       run: |
-        python3 -m flake8 --max-line-length 140
+        python3 -m flake8 src --max-line-length 140
+    - name: Lint tests with flake8
+      run: |
+        python3 -m flake8 tests --max-line-length 140
+    - name: Install build tool
+      run: |
+        python3 -m pip install build
+    - name: Build Wheel
+      run: |
+        python3 -m build
+    - name: Install Wheel
+      run: |
+        python3 -m pip install dist/pygraph_curvature-*-py3-none-any.whl
     - name: Test with pytest
       run: |
-        pytest
+        pytest tests

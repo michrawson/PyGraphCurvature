@@ -1,0 +1,26 @@
+[project]
+name = "pygraph_curvature"
+version = "0.0.1"
+
+authors = [
+  {name = "Marshall Rawson"},
+  {name = "Michael Rawson"},
+  {name = " Zhaiming Shen"},
+  {name = "Murong Xu"},
+]
+
+requires-python = ">= 3.8"
+
+readme = "README.md"
+
+license = {file = "LICENSE"}
+
+description = "Python library for calculating graph curvature"
+
+dynamic = ["dependencies"]
+
+[project.urls]
+Homepage = "https://github.com/michrawson/PyGraphCurvature"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirments.txt"]}
