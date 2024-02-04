@@ -5,9 +5,8 @@ from example_graphs import make_chung_lu_clustering_graph
 from zoneinfo import ZoneInfo
 from time import time
 import sys
-sys.path.insert(0, '..')
-from graph_curvature import lly_curvature, forman_curvature, forman_aug_curvature  # noqa: E402
-
+sys.path.insert(0, '../src')
+from pygraph_curvature import lly_curvature, forman_curvature, forman_aug_curvature  # noqa: E402
 
 tz = ZoneInfo("America/Los_Angeles")
 
@@ -38,7 +37,7 @@ def compare_curvatures(G, G_fcurv, G_fcurv_aug, LLY_curvatures):
              bins=np.arange(np.nanmin(G_fcurv.flatten()),
                             1 + np.nanmax(G_fcurv.flatten())),
              rwidth=0.85,
-             color='skyblue')  # ,edgecolor='black')
+             color='skyblue')
     plt.title('histogram')
     plt.xlabel('Forman curvature')
     plt.ylabel('count')
@@ -48,21 +47,21 @@ def compare_curvatures(G, G_fcurv, G_fcurv_aug, LLY_curvatures):
              bins=np.arange(np.nanmin(G_fcurv_aug.flatten()),
                             1 + np.nanmax(G_fcurv_aug.flatten())),
              rwidth=0.85,
-             color='skyblue')  # ,edgecolor='black')
+             color='skyblue')
     plt.title('histogram')
     plt.xlabel('Forman aug. curvature')
     plt.ylabel('count')
     plt.show()
 
     plt.hist(LLY_curvatures[np.triu_indices(LLY_curvatures.shape[0])].flatten(),
-             bins=40, rwidth=0.85, color='skyblue')  # ,edgecolor='black')
+             bins=40, rwidth=0.85, color='skyblue')
     plt.title('histogram')
     plt.xlabel('LLY curvature')
     plt.ylabel('count')
     plt.show()
 
 
-def curv_vs_time(graph_data, n_range):
+def curv_vs_time(graph_data, graph_parameters_dict, n_range):
 
     forman_times = []
     forman_alt_times = []
@@ -73,11 +72,13 @@ def curv_vs_time(graph_data, n_range):
 
         if graph_data == 'chung_lu':
 
-            G = make_chung_lu_clustering_graph(n, alpha=1., beta=.1, gamma=.0)
+            G = make_chung_lu_clustering_graph(n, alpha=graph_parameters_dict['alpha'],
+                                               beta=graph_parameters_dict['beta'],
+                                               gamma=graph_parameters_dict['gamma'])
 
         elif graph_data == 'erdos':
 
-            G = nx.erdos_renyi_graph(n, p=.003)
+            G = nx.erdos_renyi_graph(n, p=graph_parameters_dict['p'])
 
         else:
             raise NotImplementedError()
